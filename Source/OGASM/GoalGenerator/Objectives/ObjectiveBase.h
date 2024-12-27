@@ -17,6 +17,13 @@ class OGASM_API UObjectiveBase : public UPrimaryDataAsset
 {
 	GENERATED_BODY()
 public:
+	/*Properties*/
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category= "Objectives")
+	bool bIsValid = true;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category= "Objectives")
+	float Weight = 0;
+	
 	/*Delegate*/
 	UPROPERTY(BlueprintAssignable, BlueprintCallable)
 	FUpdateObjective UpdateObjectiveDelegate;
