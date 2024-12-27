@@ -9,7 +9,8 @@
 /**
  * 
  */
-	
+
+class UObjectiveGeneratorComponent;
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FUpdateObjective);
 
 UCLASS()
@@ -36,4 +37,23 @@ public:
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	void ReevaluateObjective();
 	void ReevaluateObjective_Implementation();
+
+private:
+	UPROPERTY(VisibleAnywhere, Category= "Objectives")
+	TObjectPtr<UObjectiveGeneratorComponent> ObjectiveGenerator;
+
+public:
+	/*Get generator of this objective, not editable*/
+	UFUNCTION(BlueprintCallable)
+	FORCEINLINE const UObjectiveGeneratorComponent* GetGoalGenerator() const
+	{
+		return ObjectiveGenerator;
+	}
+
+	/*Set generator of this objective*/
+	UFUNCTION(BlueprintCallable)
+	FORCEINLINE void SetGoalGenerator(UObjectiveGeneratorComponent* inObjectiveGenerator)
+	{
+		ObjectiveGenerator = inObjectiveGenerator;
+	}
 };

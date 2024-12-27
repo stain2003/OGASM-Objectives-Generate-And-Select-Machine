@@ -9,26 +9,23 @@
 
 
 UCLASS(Blueprintable, ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
-class OGASM_API UGoalGeneratorComponent : public UActorComponent
+class OGASM_API UObjectiveGeneratorComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
 public:
-	// Sets default values for this component's properties
-	UGoalGeneratorComponent();
+	UObjectiveGeneratorComponent();
 
 protected:
-	// Called when the game starts
 	virtual void BeginPlay() override;
 
 public:
-	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType,
 	                           FActorComponentTickFunction* ThisTickFunction) override;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category= "Objective Info")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category= "Objectives")
 	TArray<TSubclassOf<UObjectiveBase>> ObjectiveTypes;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category= "Objective Info")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category= "Objectives")
 	TArray<TObjectPtr<UObjectiveBase>> Objectives;
 };

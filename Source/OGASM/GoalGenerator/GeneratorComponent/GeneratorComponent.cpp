@@ -6,34 +6,25 @@
 #include "../../../../Plugins/UnrealImGui-master/Source/ThirdParty/ImGuiLibrary/Include/imgui.h"
 
 
-// Sets default values for this component's properties
-UGoalGeneratorComponent::UGoalGeneratorComponent()
+UObjectiveGeneratorComponent::UObjectiveGeneratorComponent()
 {
-	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
-	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
-	
-	// ...
 }
 
 
 // Called when the game starts
-void UGoalGeneratorComponent::BeginPlay()
+void UObjectiveGeneratorComponent::BeginPlay()
 {
 	Super::BeginPlay();
-
-	// ...
-	
 }
 
 
 // Called every frame
-void UGoalGeneratorComponent::TickComponent(float DeltaTime, ELevelTick TickType,
+void UObjectiveGeneratorComponent::TickComponent(float DeltaTime, ELevelTick TickType,
                                         FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	// ...
 	ImGui::ShowDemoWindow();
 }
 
