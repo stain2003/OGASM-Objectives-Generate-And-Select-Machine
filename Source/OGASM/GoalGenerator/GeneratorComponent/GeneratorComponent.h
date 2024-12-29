@@ -23,12 +23,16 @@ protected:
 public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType,
 	                           FActorComponentTickFunction* ThisTickFunction) override;
-
-protected:
-
+	
+	/***************************************************************************************************************
+	 * Generator Related:
+	 */
+public:
 	//Delegate to bind Objectives' update function to, broadcast by ReevaluateObjectivesTimerHandle
+	UPROPERTY(BlueprintAssignable)
 	FObjectiveReevaluateDelegate ObjectiveReevaluateDelegate;
 	
+protected:	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category= "Objectives Generator|Objectives")
 	TArray<TSubclassOf<UObjectiveBase>> ObjectiveTypes;
 
@@ -40,12 +44,33 @@ protected:
 	float UpdateContextInterval;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category= "Objectives Generator")
 	float ReevaluateObjectivesInterval;
+	UPROPERTY(BlueprintReadOnly, Category= "Objectives Generator")
+	bool bIsInit = false;
 	
 private:
 	FTimerHandle UpdateContextTimerHandle;
 	FTimerHandle ReevaluateObjectivesTimerHandle;
+
+	
 public:
-	/************************************************API************************************************/
+	/*************************************************************************************************
+	 * Context Related:
+	 */
+	//Instigator reference of APawn
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category= "Context")
+	TObjectPtr<APawn> OwnerPawn;
+
+	//Player reference of ACharacter
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category= "Context")
+	TObjectPtr<ACharacter> PlayerCharacter;
+
+
+
+
+public:
+	/************************************************************************************************
+	 * API:
+	 */
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category= "Objective Generator")
 	void InitGenerator();
 	void InitGenerator_Implementation();
@@ -65,12 +90,12 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void CallObjectivesUpdateDelegate() const;
 
-	/*************************************************Context Related************************************************/
-	//Instigator reference of APawn
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category= "Context")
-	TObjectPtr<APawn> OwnerPawn;
+	//Function used to call up context-update timer, interval can be set by changing"UpdateContextInterval"
+	UFUNCTION(BlueprintCallable)
+	void StartContextUpdateTimer();
 
-	//Player reference of ACharacter
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category= "Context")
-	TObjectPtr<ACharacter> PlayerCharacter;
+	//Function used to call up context-update timer, interval can be set by changing"UpdateContextInterval"
+	//Component need to be initialized first
+	UFUNCTION(BlueprintCallable)
+	void StartObjectiveReevaluateTimer();
 };

@@ -16,8 +16,7 @@ class OGASM_API UObjectiveBase : public UPrimaryDataAsset
 {
 	GENERATED_BODY()
 public:
-	/***************************************
-	 *Properties
+	 /*Properties
 	 */
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category= "Objectives")
 	bool bIsValid = true;
@@ -26,20 +25,18 @@ public:
 	float Weight = 0;
 
 protected:
-	/****************************************
-	 *Context Info:
+	 /*Context Info:
 	 *Usually be set when initialized
 	 */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category= "Objectives")
 	TObjectPtr<UObjectiveGeneratorComponent> ObjectiveGenerator;
 
 public:
-	/****************************************
-	 *APIs:
+	 /*APIs:
 	 */
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
-	void InitObjective();
-	void InitObjective_Implementation();
+	void InitObjective(UObjectiveGeneratorComponent* Generator);
+	void InitObjective_Implementation(UObjectiveGeneratorComponent* Generator);
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	void ReevaluateObjective();

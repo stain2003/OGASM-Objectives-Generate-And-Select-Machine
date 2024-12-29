@@ -20,15 +20,6 @@ UObjectiveGeneratorComponent::UObjectiveGeneratorComponent()
 void UObjectiveGeneratorComponent::BeginPlay()
 {
 	Super::BeginPlay();
-	if (GEngine)
-	{
-		if (const UWorld* World = GEngine->GetWorldFromContextObjectChecked(this))
-		{
-			InitObjectives();
-			World->GetTimerManager().SetTimer(UpdateContextTimerHandle, this, &UObjectiveGeneratorComponent::UpdateContext, UpdateContextInterval, true);
-			World->GetTimerManager().SetTimer(ReevaluateObjectivesTimerHandle, this, &UObjectiveGeneratorComponent::CallObjectivesUpdateDelegate, ReevaluateObjectivesInterval, true);
-		}
-	}
 }
 
 void UObjectiveGeneratorComponent::TickComponent(float DeltaTime, ELevelTick TickType,
@@ -39,26 +30,49 @@ void UObjectiveGeneratorComponent::TickComponent(float DeltaTime, ELevelTick Tic
 
 void UObjectiveGeneratorComponent::InitGenerator_Implementation()
 {
+	bIsInit = true;
 	PlayerCharacter = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
 	OwnerPawn = Cast<APawn>(GetOwner());
 }
 
 void UObjectiveGeneratorComponent::InitObjectives_Implementation()
 {
-	for (auto Objective : Objectives)
+	for (auto cls : ObjectiveTypes)
 	{
-		ObjectiveReevaluateDelegate.AddDynamic(Objective, &UObjectiveBase::ReevaluateObjective);
+		UE_LOG(LogTemp, Warning, TEXT("%s: Constructing Objectives"), *GetOwner()->GetName())
+		if (cls != nullptr && cls->IsChildOf(UObjectiveBase::StaticClass()))
+		{
+			UObjectiveBase* Objective = NewObject<UObjectiveBase>(GetTransientPackage(), cls);
+			Objective->InitObjective(this);
+			Objectives.Add(Objective);
+		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Invalid objective class, check if is null or not child of UObjectiveBase"))
+		}
 	}
-	
-	if (ObjectiveReevaluateDelegate.IsBound())
+}
+
+void UObjectiveGeneratorComponent::StartContextUpdateTimer()
+{
+	if (GEngine && bIsInit)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("ObjectiveReevaluateDelegate is bounded!!!!"))
+		if (const UWorld* World = GEngine->GetWorldFromContextObjectChecked(this))
+		{
+			World->GetTimerManager().SetTimer(UpdateContextTimerHandle, this, &UObjectiveGeneratorComponent::UpdateContext, UpdateContextInterval, true);
+		}
 	}
-	else
+}
+
+void UObjectiveGeneratorComponent::StartObjectiveReevaluateTimer()
+{
+	if (GEngine)
 	{
-		UE_LOG(LogTemp, Error, TEXT("ObjectiveReevaluateDelegate is not bounded!!!!"))
+		if (const UWorld* World = GEngine->GetWorldFromContextObjectChecked(this))
+		{
+			World->GetTimerManager().SetTimer(ReevaluateObjectivesTimerHandle, this, &UObjectiveGeneratorComponent::CallObjectivesUpdateDelegate, ReevaluateObjectivesInterval, true);
+		}
 	}
-	
 }
 
 void UObjectiveGeneratorComponent::UpdateContext_Implementation()
@@ -70,4 +84,3 @@ void UObjectiveGeneratorComponent::CallObjectivesUpdateDelegate() const
 {
 	ObjectiveReevaluateDelegate.Broadcast();
 }
-
