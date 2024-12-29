@@ -75,7 +75,7 @@ DerivedDataCache/*
 
 #
 Content/*
-!Content/Blueprints/*
-!Content/Inputs/*
-!Content/Level/*
-!Content/ThirdPerson/*
+!Content/Blueprints/
+!Content/Inputs/
+!Content/Level/
+!Content/ThirdPerson/
