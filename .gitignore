@@ -78,3 +78,4 @@ Content/*
 !Content/Blueprints/*
 !Content/Inputs/*
 !Content/Level/*
+!Content/ThirdPerson/*

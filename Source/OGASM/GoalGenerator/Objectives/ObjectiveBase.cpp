@@ -5,17 +5,10 @@
 
 void UObjectiveBase::InitObjective_Implementation()
 {
-	UpdateObjectiveDelegate.AddDynamic(this, &UObjectiveBase::ReevaluateObjective);
-	if (GEngine)
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 3.5f, FColor::Orange, FString("ReevaluateObjective_Implementation called!!!"));
-	}
+	UE_LOG(LogTemp, Warning, TEXT("%s: InitObjective_Implementation called!!!"), *this->GetName())
 }
 
 void UObjectiveBase::ReevaluateObjective_Implementation()
 {
-	if (GEngine)
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 3.5f, FColor::Orange, FString("ReevaluateObjective_Implementation called!!!"));
-	}
+	UE_LOG(LogTemp, Warning, TEXT("%s: ReevaluateObjective_Implementation called!!!"), *this->GetName())
 }
