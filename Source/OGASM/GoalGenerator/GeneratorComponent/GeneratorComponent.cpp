@@ -37,6 +37,7 @@ void UObjectiveGeneratorComponent::InitGenerator_Implementation()
 
 void UObjectiveGeneratorComponent::InitObjectives_Implementation()
 {
+	if (!bIsInit) return;
 	for (auto cls : ObjectiveTypes)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("%s: Constructing Objectives"), *GetOwner()->GetName())
@@ -55,7 +56,8 @@ void UObjectiveGeneratorComponent::InitObjectives_Implementation()
 
 void UObjectiveGeneratorComponent::StartContextUpdateTimer()
 {
-	if (GEngine && bIsInit)
+	if (!bIsInit) return;
+	if (GEngine)
 	{
 		if (const UWorld* World = GEngine->GetWorldFromContextObjectChecked(this))
 		{
@@ -66,6 +68,7 @@ void UObjectiveGeneratorComponent::StartContextUpdateTimer()
 
 void UObjectiveGeneratorComponent::StartObjectiveReevaluateTimer()
 {
+	if (!bIsInit) return;
 	if (GEngine)
 	{
 		if (const UWorld* World = GEngine->GetWorldFromContextObjectChecked(this))
@@ -77,10 +80,12 @@ void UObjectiveGeneratorComponent::StartObjectiveReevaluateTimer()
 
 void UObjectiveGeneratorComponent::UpdateContext_Implementation()
 {
+	if (!bIsInit) return;
 	UE_LOG(LogTemp, Warning, TEXT("Updating context!!!!"))
 }
 
 void UObjectiveGeneratorComponent::CallObjectivesUpdateDelegate() const
 {
+	if (!bIsInit) return;
 	ObjectiveReevaluateDelegate.Broadcast();
 }
