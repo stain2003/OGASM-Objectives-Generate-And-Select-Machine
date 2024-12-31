@@ -25,8 +25,9 @@ public:
 	float Weight = 0;
 
 protected:
-	 /*Context Info:
-	 *Usually be set when initialized
+	/*
+	 * Context Info:
+	 * Usually be set when initialized
 	 */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category= "Objectives")
 	TObjectPtr<UObjectiveGeneratorComponent> ObjectiveGenerator;

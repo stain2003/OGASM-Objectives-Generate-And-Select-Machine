@@ -7,6 +7,21 @@
 #include "Kismet/GameplayStatics.h"
 
 
+
+
+#define CHECK_GENERATOR_INITIALIZED(bIsInit) \
+if (!bIsInit) { \
+UE_LOG(LogTemp, Error, TEXT("[Error] Calling function: %s failed: Generator is not initialized!"), TEXT(__FUNCTION__)); \
+return; \
+}
+
+#define CHECK_GENERATOR_INITIALIZED_WITH_WARNING(bIsInit) \
+if (!bIsInit) { \
+UE_LOG(LogTemp, Warning, TEXT("[Warning] %s: Generator is not initialized, initialize it first!"), TEXT(__FUNCTION__)); \
+}
+
+
+
 UObjectiveGeneratorComponent::UObjectiveGeneratorComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
@@ -37,7 +52,7 @@ void UObjectiveGeneratorComponent::InitGenerator_Implementation()
 
 void UObjectiveGeneratorComponent::InitObjectives_Implementation()
 {
-	if (!bIsInit) return;
+	CHECK_GENERATOR_INITIALIZED(bIsInit)
 	for (auto cls : ObjectiveTypes)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("%s: Constructing Objectives"), *GetOwner()->GetName())
@@ -56,7 +71,7 @@ void UObjectiveGeneratorComponent::InitObjectives_Implementation()
 
 void UObjectiveGeneratorComponent::StartContextUpdateTimer()
 {
-	if (!bIsInit) return;
+	CHECK_GENERATOR_INITIALIZED(bIsInit)
 	if (GEngine)
 	{
 		if (const UWorld* World = GEngine->GetWorldFromContextObjectChecked(this))
@@ -68,7 +83,7 @@ void UObjectiveGeneratorComponent::StartContextUpdateTimer()
 
 void UObjectiveGeneratorComponent::StartObjectiveReevaluateTimer()
 {
-	if (!bIsInit) return;
+	CHECK_GENERATOR_INITIALIZED_WITH_WARNING(bIsInit)
 	if (GEngine)
 	{
 		if (const UWorld* World = GEngine->GetWorldFromContextObjectChecked(this))
@@ -80,12 +95,9 @@ void UObjectiveGeneratorComponent::StartObjectiveReevaluateTimer()
 
 void UObjectiveGeneratorComponent::UpdateContext_Implementation()
 {
-	if (!bIsInit) return;
-	UE_LOG(LogTemp, Warning, TEXT("Updating context!!!!"))
 }
 
 void UObjectiveGeneratorComponent::CallObjectivesUpdateDelegate() const
 {
-	if (!bIsInit) return;
 	ObjectiveReevaluateDelegate.Broadcast();
 }
