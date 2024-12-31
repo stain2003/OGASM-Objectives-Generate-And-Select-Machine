@@ -74,8 +74,12 @@ Plugins/*/Intermediate/*
 DerivedDataCache/*
 
 #
-Content/*
-!Content/Blueprints/
-!Content/Inputs/
-!Content/Level/
-!Content/ThirdPerson/
+Content/Characters/
+Content/_ExternalActors_/
+#!Content/Blueprints/
+#!Content/Inputs/
+#!Content/Inputs/
+#!Content/Level/
+#!Content/ThirdPerson/
+/Content/__ExternalActors__
+/Content/__ExternalObjects__

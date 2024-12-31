@@ -15,10 +15,8 @@ void UObjectiveBase::InitObjective_Implementation(UObjectiveGeneratorComponent* 
 	{
 		UE_LOG(LogTemp, Error, TEXT("%s: Initialization failed!: Invalid ObjectiveGenerator pointer!"), *this->GetName())
 	}
-	UE_LOG(LogTemp, Warning, TEXT("%s: InitObjective_Implementation called!!!"), *this->GetName())
 }
 
 void UObjectiveBase::ReevaluateObjective_Implementation()
 {
-	UE_LOG(LogTemp, Warning, TEXT("%s: ReevaluateObjective_Implementation called!!!"), *this->GetName())
 }
