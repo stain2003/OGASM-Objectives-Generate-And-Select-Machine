@@ -56,15 +56,23 @@ public:
 	/*************************************************************************************************************
 	 * Context Related:
 	 */
+	/*
+	 * Reference Category
+	 */
 	//Instigator reference of APawn
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category= "Context")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category= "Context|Reference")
 	TObjectPtr<APawn> OwnerPawn;
 
 	//Player reference of ACharacter
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category= "Context")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category= "Context|Reference")
 	TObjectPtr<ACharacter> PlayerCharacter;
 
-	
+
+	/*
+	 * Distance Category
+	 */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category= "Context|Distance")
+	float Distance = 0.f;
 
 public:
 	/****************************************************************************************************************

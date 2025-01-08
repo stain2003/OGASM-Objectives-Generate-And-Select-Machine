@@ -20,6 +20,13 @@ if (!bIsInit) { \
 UE_LOG(LogTemp, Warning, TEXT("[Warning] %s: Generator is not initialized, initialize it first!"), TEXT(__FUNCTION__)); \
 }
 
+#define CHECK_POINTER(Ptr) \
+if (!Ptr) { \
+	UE_LOG(LogTemp, Warning, TEXT("[Warning] %s: '%s' is null ptr"), TEXT(__FUNCTION__), TEXT(#Ptr)); \
+} \
+else { \
+	UE_LOG(LogTemp, Warning, TEXT("[Warning] %s: '%s' is valid ptr"), TEXT(__FUNCTION__), TEXT(#Ptr)); \
+}
 
 
 UObjectiveGeneratorComponent::UObjectiveGeneratorComponent()
@@ -41,14 +48,6 @@ void UObjectiveGeneratorComponent::TickComponent(float DeltaTime, ELevelTick Tic
                                         FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	/*ImGui::Begin("Generator");
-	for (auto obj : Objectives)
-	{
-		FString name = this->GetName();
-		ImGui::Text("%s", TCHAR_TO_UTF8(*name));
-	}
-	ImGui::End();*/
 }
 
 void UObjectiveGeneratorComponent::InitGenerator_Implementation()
@@ -56,6 +55,9 @@ void UObjectiveGeneratorComponent::InitGenerator_Implementation()
 	bIsInit = true;
 	PlayerCharacter = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
 	OwnerPawn = Cast<APawn>(GetOwner());
+
+	CHECK_POINTER(PlayerCharacter)
+	CHECK_POINTER(OwnerPawn)
 }
 
 void UObjectiveGeneratorComponent::InitObjectives_Implementation()
@@ -63,7 +65,6 @@ void UObjectiveGeneratorComponent::InitObjectives_Implementation()
 	CHECK_GENERATOR_INITIALIZED(bIsInit)
 	for (auto cls : ObjectiveTypes)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("%s: Constructing Objectives"), *GetOwner()->GetName())
 		if (cls != nullptr && cls->IsChildOf(UObjectiveBase::StaticClass()))
 		{
 			UObjectiveBase* Objective = NewObject<UObjectiveBase>(GetTransientPackage(), cls);
