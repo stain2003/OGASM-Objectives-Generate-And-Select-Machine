@@ -41,6 +41,14 @@ void UObjectiveGeneratorComponent::TickComponent(float DeltaTime, ELevelTick Tic
                                         FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+
+	/*ImGui::Begin("Generator");
+	for (auto obj : Objectives)
+	{
+		FString name = this->GetName();
+		ImGui::Text("%s", TCHAR_TO_UTF8(*name));
+	}
+	ImGui::End();*/
 }
 
 void UObjectiveGeneratorComponent::InitGenerator_Implementation()

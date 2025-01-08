@@ -8,6 +8,11 @@
 			"Name": "OGASM",
 			"Type": "Runtime",
 			"LoadingPhase": "Default"
+		},
+		{
+			"Name": "imGUIK2Node",
+			"Type": "UnCookedOnly",
+			"LoadingPhase": "Default"
 		}
 	],
 	"Plugins": [

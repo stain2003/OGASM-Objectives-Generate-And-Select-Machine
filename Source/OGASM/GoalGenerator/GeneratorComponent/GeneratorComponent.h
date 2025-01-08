@@ -64,8 +64,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category= "Context")
 	TObjectPtr<ACharacter> PlayerCharacter;
 
-
-
+	
 
 public:
 	/****************************************************************************************************************
