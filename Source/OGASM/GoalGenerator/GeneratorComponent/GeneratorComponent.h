@@ -7,7 +7,8 @@
 #include "OGASM/GoalGenerator/Objectives/ObjectiveBase.h"
 #include "GeneratorComponent.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FObjectiveReevaluateDelegate);
+//DECLARE_DYNAMIC_MULTICAST_DELEGATE(FObjectiveReevaluateDelegate);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FObjectiveReevaluateDelegate, UObjectiveGeneratorComponent*, Generator);
 
 UCLASS(Blueprintable, ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class OGASM_API UObjectiveGeneratorComponent : public UActorComponent
@@ -72,7 +73,7 @@ public:
 	 * Distance Category
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category= "Context|Distance")
-	float Distance = 0.f;
+	float PlayerDistance = 0.f;
 
 public:
 	/****************************************************************************************************************
@@ -95,7 +96,7 @@ public:
 
 	//Function used to call UpdateObjectiveDelegate, which will then broadcast to ReevaluateObjective function
 	UFUNCTION(BlueprintCallable)
-	void CallObjectivesUpdateDelegate() const;
+	void CallObjectivesUpdateDelegate();
 
 	//Function used to call up context-update timer, interval can be set by changing"UpdateContextInterval"
 	UFUNCTION(BlueprintCallable)

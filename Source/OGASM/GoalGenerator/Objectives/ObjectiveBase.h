@@ -38,10 +38,10 @@ public:
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	void InitObjective(UObjectiveGeneratorComponent* Generator);
 	void InitObjective_Implementation(UObjectiveGeneratorComponent* Generator);
-
+	
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
-	void ReevaluateObjective();
-	void ReevaluateObjective_Implementation();
+	void ReevaluateObjective(UObjectiveGeneratorComponent* Generator);
+	void ReevaluateObjective_Implementation(UObjectiveGeneratorComponent* Generator);
 
 	
 	//Force inline function

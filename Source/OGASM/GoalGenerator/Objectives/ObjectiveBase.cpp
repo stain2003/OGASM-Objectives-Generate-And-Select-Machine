@@ -4,8 +4,13 @@
 #include "ObjectiveBase.h"
 #include "OGASM/GoalGenerator/GeneratorComponent/GeneratorComponent.h"
 
+/*
+ * c++ objective initialization implement
+ */
 void UObjectiveBase::InitObjective_Implementation(UObjectiveGeneratorComponent* Generator)
 {
+	//Binding ReevaluateObjective_Implementation() 'RO' to ObjectiveReevaluateDelegate() of Objective Generator
+	//RO will be called once generator set timer to call this delegate
 	if (Generator != nullptr)
 	{
 		ObjectiveGenerator = Generator;
@@ -17,6 +22,10 @@ void UObjectiveBase::InitObjective_Implementation(UObjectiveGeneratorComponent* 
 	}
 }
 
-void UObjectiveBase::ReevaluateObjective_Implementation()
+/*
+ * C++ objective reevaluate implementation
+ */
+void UObjectiveBase::ReevaluateObjective_Implementation(UObjectiveGeneratorComponent* Generator)
 {
+	check(Generator != nullptr);
 }

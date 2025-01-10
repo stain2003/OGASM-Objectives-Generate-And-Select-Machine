@@ -4,6 +4,7 @@
 #include "GeneratorComponent.h"
 
 #include "../../../../Plugins/UnrealImGui-master/Source/ThirdParty/ImGuiLibrary/Include/imgui.h"
+#include "GameFramework/Character.h"
 #include "Kismet/GameplayStatics.h"
 
 
@@ -52,10 +53,13 @@ void UObjectiveGeneratorComponent::TickComponent(float DeltaTime, ELevelTick Tic
 
 void UObjectiveGeneratorComponent::InitGenerator_Implementation()
 {
+	/*
+	 * Generator Initialization:
+	 * Set reference and check
+	 */
 	bIsInit = true;
 	PlayerCharacter = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
 	OwnerPawn = Cast<APawn>(GetOwner());
-
 	CHECK_POINTER(PlayerCharacter)
 	CHECK_POINTER(OwnerPawn)
 }
@@ -85,6 +89,7 @@ void UObjectiveGeneratorComponent::StartContextUpdateTimer()
 	{
 		if (const UWorld* World = GEngine->GetWorldFromContextObjectChecked(this))
 		{
+			//start up timer for context information update
 			World->GetTimerManager().SetTimer(UpdateContextTimerHandle, this, &UObjectiveGeneratorComponent::UpdateContext, UpdateContextInterval, true);
 		}
 	}
@@ -97,16 +102,26 @@ void UObjectiveGeneratorComponent::StartObjectiveReevaluateTimer()
 	{
 		if (const UWorld* World = GEngine->GetWorldFromContextObjectChecked(this))
 		{
+			//start up timer for objective delegate
 			World->GetTimerManager().SetTimer(ReevaluateObjectivesTimerHandle, this, &UObjectiveGeneratorComponent::CallObjectivesUpdateDelegate, ReevaluateObjectivesInterval, true);
 		}
 	}
 }
 
-void UObjectiveGeneratorComponent::UpdateContext_Implementation()
+
+/*
+ * C++ Implement for calling Objective update event(Timed):
+ * Calling update for all bind objectives
+ */
+void UObjectiveGeneratorComponent::CallObjectivesUpdateDelegate()
 {
+	ObjectiveReevaluateDelegate.Broadcast(this);
 }
 
-void UObjectiveGeneratorComponent::CallObjectivesUpdateDelegate() const
+/*
+ * C++ Implement for generator context update
+ */
+void UObjectiveGeneratorComponent::UpdateContext_Implementation()
 {
-	ObjectiveReevaluateDelegate.Broadcast();
+	PlayerDistance = (PlayerCharacter->GetActorLocation() - OwnerPawn->GetActorLocation()).Length();
 }
